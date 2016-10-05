@@ -18,4 +18,9 @@ public class MainItemsController {
 		Main.showSalesInvoiceWindow();
 	}
 	
+	@FXML
+	private void addPaymentBtn() throws IOException{
+		Main.showAddPaymentWindow();
+	}
+	
 }

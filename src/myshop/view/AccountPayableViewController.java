@@ -11,11 +11,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
 import myshop.Main;
 import myshop.dbhandler.DBQuries;
 import myshop.models.MyAccountPaybleModel;
+import myshop.models.PurchaseHistoryModel;
 
 public class AccountPayableViewController implements Initializable {
 
@@ -166,6 +169,37 @@ public class AccountPayableViewController implements Initializable {
 	
 	table.setItems(list);
 
+	 table.setRowFactory(tv -> {
+ 	    TableRow<MyAccountPaybleModel> row = new TableRow<>();
+ 	    row.setOnMouseClicked(event -> {
+ 	        if (! row.isEmpty() && event.getButton()==MouseButton.PRIMARY 
+ 	             && event.getClickCount() == 2) {
+
+ 	        		try {
+ 	        			if(Main.isPayableClicked)
+						Main.showAccountPayableDetailsOfAPersonWindow();
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+ 				
+ 				try {
+ 					//Main.showPurchaseBillDetail();
+ 				} catch (Exception e) {
+ 					//e.printStackTrace();
+ 				}
+ 	          
+ 	        }
+ 	        if(! row.isEmpty() &&event.getButton() == MouseButton.SECONDARY)
+ 	        {
+ 	        	
+ 	        }
+ 	        if(event.getButton() == MouseButton.PRIMARY&& event.getClickCount() == 1){
+ 	        	
+ 	        }
+ 	    });
+ 	    return row ;
+ 	});
 	
 		
 	

@@ -11,6 +11,7 @@
          <children>
             <Button mnemonicParsing="false" onAction="#salesInvoiceBtn" prefHeight="100.0" prefWidth="200.0" text="Sales Invoice Entry" />
             <Button mnemonicParsing="false" onAction="#purchaseEntryBtn" prefHeight="100.0" prefWidth="200.0" text="Purchase Bill Entry" />
+            <Button mnemonicParsing="false" onAction="#addPaymentBtn" prefHeight="100.0" prefWidth="200.0" text="Add Payment" />
          </children>
          <opaqueInsets>
             <Insets />

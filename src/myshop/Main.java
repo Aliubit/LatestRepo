@@ -205,6 +205,41 @@ public class Main extends Application {
 			addDialogStage.showAndWait();
 		}
 		
+		public static void showAccountPayableDetailsOfAPersonWindow() throws IOException{
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("view/AccountPayableOfAPersonView.fxml"));
+			BorderPane showDetailWindow = loader.load();
+			
+			Stage addDialogStage = new Stage();
+			addDialogStage.setTitle("Account Payble Details");
+			addDialogStage.initModality(Modality.WINDOW_MODAL);
+			addDialogStage.initOwner(primaryStage);
+			
+			Scene scene = new Scene(showDetailWindow);
+			addDialogStage.setScene(scene);
+			addDialogStage.showAndWait();
+		}
+		
+		
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		///////////////////////////////////////// Add Payment Window Of myShop ////////////////////
+		
+		public static void showAddPaymentWindow() throws IOException{
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("view/AddPaymentWindow.fxml"));
+			BorderPane showDetailWindow = loader.load();
+			
+			Stage addDialogStage = new Stage();
+			addDialogStage.setTitle("Add New Payment");
+			addDialogStage.initModality(Modality.WINDOW_MODAL);
+			addDialogStage.initOwner(primaryStage);
+			
+			Scene scene = new Scene(showDetailWindow);
+			addDialogStage.setScene(scene);
+			addDialogStage.showAndWait();
+		}
+		
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	///////////////////////////////////////// Dealers Of myShop /////////////////////////////////////////////
