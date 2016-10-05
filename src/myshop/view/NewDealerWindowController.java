@@ -109,6 +109,16 @@ public class NewDealerWindowController {
 	public void setScene(Scene scene) {
 		// TODO Auto-generated method stub
 		this.scene = scene;
+		scene.setOnKeyPressed(
+				event->{
+					switch(event.getCode()){
+					case ESCAPE:
+						CancelBtnPressed();
+					default:
+						break;
+					}
+				}
+			);
 	}
 	
 	@FXML

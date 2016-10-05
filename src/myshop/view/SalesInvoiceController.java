@@ -115,8 +115,6 @@ public class SalesInvoiceController implements Initializable{
 		scene.setOnKeyPressed(
 				event->{
 					switch(event.getCode()){
-					case ENTER:
-						System.out.println("manhoos add ");
 					case ESCAPE:
 						cancelButtonPressed();
 					default:
@@ -159,45 +157,45 @@ public class SalesInvoiceController implements Initializable{
 		tableData =FXCollections.observableArrayList();
 		
 		
-		 table.setEditable(true);
-		  
-		 
-	         serialNoColumn = new TableColumn("Serial No");
-	        serialNoColumn.setMinWidth(20);
-	        serialNoColumn.setCellValueFactory(new PropertyValueFactory<MySalesInvoiceModel, Label>("serialNo"));
-	        
-	        
-	        ObservableList<String> cbValues = FXCollections.observableArrayList("1", "2", "3", "4", "5");
-	        productColumn = new TableColumn("Product Column");
-	        productColumn.setMinWidth(100);
-	        productColumn.setCellValueFactory(new PropertyValueFactory<MySalesInvoiceModel, ComboBox>("productName"));
-	        
-	        availableQuntityColumn = new TableColumn("Available Qty");
-	        availableQuntityColumn.setMinWidth(100);
-	        availableQuntityColumn.setCellValueFactory(new PropertyValueFactory<MySalesInvoiceModel, Label>("availableQuantity"));
-	      
-	        quantityColumn = new TableColumn("Quantity");
-	        quantityColumn.setMinWidth(100);
-	        quantityColumn.setCellValueFactory(new PropertyValueFactory<MySalesInvoiceModel, TextField>("quantity"));
-	        
+		table.setEditable(true);
+	  
+	 
+        serialNoColumn = new TableColumn("Serial No");
+        serialNoColumn.setMinWidth(20);
+        serialNoColumn.setCellValueFactory(new PropertyValueFactory<MySalesInvoiceModel, Label>("serialNo"));
+        
+        
+        ObservableList<String> cbValues = FXCollections.observableArrayList("1", "2", "3", "4", "5");
+        productColumn = new TableColumn("Product Column");
+        productColumn.setMinWidth(100);
+        productColumn.setCellValueFactory(new PropertyValueFactory<MySalesInvoiceModel, ComboBox>("productName"));
+        
+        availableQuntityColumn = new TableColumn("Available Qty");
+        availableQuntityColumn.setMinWidth(100);
+        availableQuntityColumn.setCellValueFactory(new PropertyValueFactory<MySalesInvoiceModel, Label>("availableQuantity"));
+      
+        quantityColumn = new TableColumn("Quantity");
+        quantityColumn.setMinWidth(100);
+        quantityColumn.setCellValueFactory(new PropertyValueFactory<MySalesInvoiceModel, TextField>("quantity"));
+        
 
-	        rateColumn = new TableColumn("Rate");
-	        rateColumn.setMinWidth(100);
-	        rateColumn.setCellValueFactory(new PropertyValueFactory<MySalesInvoiceModel, TextField>("rate"));
-	       
-	        amountColumn = new TableColumn("Amount");
-	        amountColumn.setMinWidth(100);
-	        amountColumn.setCellValueFactory(new PropertyValueFactory<MySalesInvoiceModel, TextField>("amount"));
-	   
-	           for(int i=0;i<5;i++)
-	           {
-	        	   MySalesInvoiceModel model = new MySalesInvoiceModel(productNameList);
-	        	   //model.productName.setItems(productNameList);
-	        	   model.getSerialNo().setText((i+1)+"");
-	        	   tableData.add(model);
-	        	   rowCounter++;
-	           }
-	       
+        rateColumn = new TableColumn("Rate");
+        rateColumn.setMinWidth(100);
+        rateColumn.setCellValueFactory(new PropertyValueFactory<MySalesInvoiceModel, TextField>("rate"));
+       
+        amountColumn = new TableColumn("Amount");
+        amountColumn.setMinWidth(100);
+        amountColumn.setCellValueFactory(new PropertyValueFactory<MySalesInvoiceModel, TextField>("amount"));
+   
+           for(int i=0;i<5;i++)
+           {
+        	   MySalesInvoiceModel model = new MySalesInvoiceModel(productNameList);
+        	   //model.productName.setItems(productNameList);
+        	   model.getSerialNo().setText((i+1)+"");
+        	   tableData.add(model);
+        	   rowCounter++;
+           }
+       
 	        table.setMaxHeight(200);
 	        table.setItems(tableData);
 	 
@@ -217,7 +215,7 @@ public class SalesInvoiceController implements Initializable{
             	  {
             		  if(model1.productName.equals(clickedComboBox))
             		  {
-            			  System.out.println("Milgya bhai");
+            			 // System.out.println("Milgya bhai");
             			  try {
 							productSelected(clickedComboBox, model.getAvailableQuantity());
 						} catch (Exception e1) {

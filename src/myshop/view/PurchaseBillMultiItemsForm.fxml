@@ -19,9 +19,9 @@
    <bottom>
       <HBox alignment="BASELINE_RIGHT" prefHeight="40.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#add5MoreRowsPressed" text="Add 5 More Rows" />
+            <Button mnemonicParsing="false" onAction="#addFiveMoreRowsPressed" text="Add 5 More Rows" />
             <Button fx:id="addButton" focusTraversable="false" mnemonicParsing="false" onAction="#addButonPressed" prefHeight="25.0" prefWidth="86.0" text="Add Product" />
-         	<Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButtonPressed" prefWidth="80.0" text="Cancel" />
+         	<Button mnemonicParsing="false" onAction="#cancelButtonPressed" prefWidth="80.0" text="Cancel" />
          </children>
          <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -43,11 +43,11 @@
               </rowConstraints>
                <children>
                   <Label text="Date :" />
-                  <Label text="Reciept No :" GridPane.rowIndex="1" />
-                  <Label text="Name Of Customer :" GridPane.rowIndex="2" />
+                  <Label text="Bill No :" GridPane.rowIndex="1" />
+                  <Label text="Name Of Supplier :" GridPane.rowIndex="2" />
                   <DatePicker fx:id="datePicker" GridPane.columnIndex="1" />
-                  <TextField fx:id="recieptNoTextField" prefHeight="22.0" prefWidth="165.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <ComboBox fx:id="customerNameComboBox" prefHeight="22.0" prefWidth="282.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="billNoTextField" prefHeight="22.0" prefWidth="165.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <ComboBox fx:id="supplierNameComboBox" prefHeight="22.0" prefWidth="282.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                </children>
             </GridPane>
             <Separator prefWidth="200.0" />

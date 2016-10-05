@@ -113,7 +113,7 @@ public class Main extends Application {
 	
 	public static void showPurchaseBillWindow() throws IOException{
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(Main.class.getResource("view/PurchaseBillEntryForm.fxml"));
+		loader.setLocation(Main.class.getResource("view/PurchaseBillMultiItemsForm.fxml"));
 		BorderPane addNewProduct = loader.load();
 		purchaseBillController controller = (purchaseBillController)loader.getController();
 		System.out.println("khol window");

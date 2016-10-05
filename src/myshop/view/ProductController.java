@@ -99,6 +99,16 @@ public class ProductController implements Initializable{
 */
 	public void setScene(Scene scene) { 
 		this.scene = scene; 
+		scene.setOnKeyPressed(
+				event->{
+					switch(event.getCode()){
+					case ESCAPE:
+						cancelButtonPressed();
+					default:
+						break;
+					}
+				}
+			);
 	}
 	
 

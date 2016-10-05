@@ -13,14 +13,23 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.SingleSelectionModel;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import myshop.Main;
 import myshop.dbhandler.ConnectToDB;
 import myshop.dbhandler.DBQuries;
+import myshop.models.AutoCompleteComboBoxListener;
+import myshop.models.MyPurchaseBillNewModel;
+import myshop.models.MySalesInvoiceModel;
 
 public class purchaseBillController implements Initializable{
 
@@ -40,14 +49,60 @@ public class purchaseBillController implements Initializable{
 	private TextField amountTextField;
 	@FXML
 	private Button addButton;
+	
+	
 	public ObservableList<String> supplierNameList;
 	public ObservableList<String> productNameList;
+	
+	ContextMenu cm;
+	
+	
+	public  TableView<MyPurchaseBillNewModel> table = new TableView();
+
+	public  TableColumn serialNoColumn;
+	 
+	public  TableColumn productColumn;
+	 	 
+	public  TableColumn quantityColumn;
+	
+	public TableColumn rateColumn;
+	
+	public TableColumn amountColumn;
+	@FXML
+	public VBox vbox;
+	@FXML
+	private GridPane gridPane;
+
+	private ObservableList<MyPurchaseBillNewModel> tableData;
+	
+	int rowCounter,result;
+
 	String text;
 
 	Scene scene;
+	boolean check;
+	
+	@FXML
+	public void addFiveMoreRowsPressed()
+	{
+		int localCOunter=rowCounter;
+        for(int i = rowCounter ; i < rowCounter+5 ; i++)
+        {
+     	   MyPurchaseBillNewModel model = new MyPurchaseBillNewModel(productNameList);
+     	  // model.productName.setItems(productNameList);
+     	   model.getSerialNo().setText((i+1)+"");
+     	   tableData.add(model);
+     	   localCOunter++;
+        }
+	rowCounter=localCOunter;
+	
+	
+	table.setItems(tableData);
+	}
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+		rowCounter = 0;
 		DBQuries query = new DBQuries();
 		ResultSet rset = query.getAllProducts();
 		ResultSet rset1 = query.getAllSuppliersName();
@@ -69,8 +124,98 @@ public class purchaseBillController implements Initializable{
 		catch (SQLException e) {
 			e.printStackTrace();
 		}
-		prodNameComboBox.setItems(productNameList);
+		//prodNameComboBox.setItems(productNameList);
 		supplierNameComboBox.setItems(supplierNameList);
+		new AutoCompleteComboBoxListener<>(supplierNameComboBox);
+ 
+		tableData = FXCollections.observableArrayList();
+		
+		table.setEditable(true);
+		  
+		 
+	    serialNoColumn = new TableColumn("Serial No");
+	    serialNoColumn.setMinWidth(20);
+	    serialNoColumn.setCellValueFactory(new PropertyValueFactory<MyPurchaseBillNewModel, Label>("serialNo"));
+	        
+        
+       // ObservableList<String> cbValues = FXCollections.observableArrayList("1", "2", "3", "4", "5");
+        productColumn = new TableColumn("Product Column");
+        productColumn.setMinWidth(100);
+        productColumn.setCellValueFactory(new PropertyValueFactory<MyPurchaseBillNewModel, ComboBox>("productName"));
+        
+        quantityColumn = new TableColumn("Quantity");
+        quantityColumn.setMinWidth(100);
+        quantityColumn.setCellValueFactory(new PropertyValueFactory<MyPurchaseBillNewModel, TextField>("productQuantity"));
+        
+
+        rateColumn = new TableColumn("Rate");
+        rateColumn.setMinWidth(100);
+        rateColumn.setCellValueFactory(new PropertyValueFactory<MyPurchaseBillNewModel, TextField>("productRate"));
+       
+        amountColumn = new TableColumn("Amount");
+        amountColumn.setMinWidth(100);
+        amountColumn.setCellValueFactory(new PropertyValueFactory<MyPurchaseBillNewModel, TextField>("productAmount"));
+
+        for(int i=0;i<5;i++)
+        {
+        	MyPurchaseBillNewModel model = new MyPurchaseBillNewModel(productNameList);
+     	   //model.productName.setItems(productNameList);
+     	   model.getSerialNo().setText((i+1)+"");
+     	   tableData.add(model);
+     	   rowCounter++;
+        }
+    
+	    table.setMaxHeight(200);
+	    table.setItems(tableData);
+	 
+	    table.getColumns().addAll(serialNoColumn, productColumn,quantityColumn,rateColumn,amountColumn);
+	        
+	 
+
+	    for(MyPurchaseBillNewModel model : tableData)
+        {
+        	
+        model.productQuantity.setOnKeyReleased(e-> {
+        TextField typedQtyTextField = (TextField) e.getSource();
+        for(MyPurchaseBillNewModel model2 : tableData)
+        {
+      	  
+      	  if(model2.productQuantity.equals(typedQtyTextField))
+      	  {
+      		  try {
+					keyPressed(quantityTextField, rateTextField, amountTextField);
+      			  //quantityLeft(typedQtyTextField,model2.rate,model2.amount,model2.availableQuantity);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+      		  break;
+      	  }
+      	  
+        }
+        });
+        
+        model.productRate.setOnKeyReleased(e-> {
+            TextField typedQtyTextField = (TextField) e.getSource();
+            for(MyPurchaseBillNewModel model2 : tableData)
+            {
+          	  
+          	  if(model2.productRate.equals(typedQtyTextField))
+          	  {
+          		  try {
+          			  keyPressed(quantityTextField, rateTextField, amountTextField);
+						//quantityLeft(model2.quantity,model2.rate,model2.amount,model2.availableQuantity);
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+          		  break;
+          	  }
+          	  
+            }
+            });
+        }
+
 	}
 	
 	public void handle( KeyEvent event ) {
@@ -107,7 +252,12 @@ public class purchaseBillController implements Initializable{
 	
 	@FXML
 	private void addButonPressed(){
-		if(areAllFieldsSelected() ){
+		//if(areAllFieldsSelected() ){
+		for(MyPurchaseBillNewModel model : tableData){
+			
+			if(datePicker.getValue() != null && billNoTextField.getText().length() > 0 && supplierNameComboBox.getValue() != null
+					&& model.productName.getValue() != null && model.productQuantity.getText().length() > 0 && model.productRate.getText().length() > 0 && model.productAmount.getText().length() > 0){
+			
 		LocalDate currDate = datePicker.getValue();
 		
 		int year= currDate.getYear();
@@ -116,55 +266,50 @@ public class purchaseBillController implements Initializable{
 		
 		String dateFormat = date+"/"+month+"/"+year;
 		String billNo = billNoTextField.getText();
-		String quantity = quantityTextField.getText();
-		String rate = rateTextField.getText();
-		String amount = amountTextField.getText();
+		String quantity = model.productQuantity.getText();
+		String rate = model.productRate.getText();
+		String amount = model.productAmount.getText();
 		String supplier = supplierNameComboBox.getValue();
-		String products = prodNameComboBox.getValue();
-//		System.out.println("Product is "+products);
+		String products = model.productName.getValue();
 		String[] str =supplier.split("_");
 		String[] str1 =products.split("_");
 		
-		/*prodNameComboBox.setValue("");
-		rateTextField.setText("");
-		amountTextField.setText("");
-		quantityTextField.setText("");
-		*/
 		DBQuries query = new DBQuries();
-		int result = query.insertIntoPurchaseHistory(dateFormat, str[0], str[1], billNo, str1[1], str1[0],Integer.parseInt(quantity) , Float.parseFloat(rate),Float.parseFloat(amount));
-		//System.out.println("supplier ID "+str[1]+"Supplier Name "+ str[0]+" P ID:  "+ str1[1]+ " P Name: "+ str1[0]);
+		result = query.insertIntoPurchaseHistory(dateFormat, str[0], str[1], billNo, str1[1], str1[0],Integer.parseInt(quantity) , Float.parseFloat(rate),Float.parseFloat(amount));
+		}
+		}
+		
+		for(MyPurchaseBillNewModel model : tableData){
 		if(result == 1){
-			Main.successDialogBox();
+			check = true;
+			//Main.successDialogBox();
 			datePicker.getEditor().setText("");
 			billNoTextField.setText("");
 			supplierNameComboBox.setValue("");
-			prodNameComboBox.setValue("");
-			quantityTextField.setText("");
-			rateTextField.setText("");
-			amountTextField.setText("");
+			model.productName.setValue("");
+			model.productQuantity.setText("");
+			model.productRate.setText("");
+			model.productAmount.setText("");
+			//model.availableQuantity.setText("");
+			//System.out.println("Which error yarrrrrr");
+		}
+		}
+		if(check == true){
+			Main.successDialogBox();
 		}
 		else{
-			Main.faillureDialogBox("Query Failed to Execute");
+			Main.faillureDialogBox("Check is not true");
 		}
-		try {
-			ConnectToDB.conn.close();
-		} 
-		catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-		else{
-			Main.faillureDialogBox("Please fill all the required fields");
-		}
+		
 }
 	
 	
-	
+	/*
 	public boolean areAllFieldsSelected(){
 			return datePicker.getValue()!=null && billNoTextField.getText().length()>0 && supplierNameComboBox.getValue()!=null 
 				   && prodNameComboBox.getValue()!=null && quantityTextField.getText().length()>0 && rateTextField.getText().length()>0 && amountTextField.getText().length()>0;
 	}
-	
+	*/
 	@FXML
 	public void mouseDraggedOnAmountTextField(){
 		Float rate = Float.parseFloat(rateTextField.getText());
@@ -173,8 +318,11 @@ public class purchaseBillController implements Initializable{
 		amountTextField.setText(amount+"");
 	}
 	
-	@FXML
-	public void keyPressed(){
+	
+	public void keyPressed(TextField qty,TextField ratefield,TextField Amount){
+		quantityTextField=qty;
+		rateTextField=ratefield;
+		amountTextField=Amount;
 		if(quantityTextField.getText().length() > 0 && rateTextField.getText().length() > 0){
 			Float rate = Float.parseFloat(rateTextField.getText());
 			int quantity= Integer.parseInt(quantityTextField.getText());
@@ -187,6 +335,16 @@ public class purchaseBillController implements Initializable{
 
 	public void setScene(Scene scene) {
 		this.scene = scene;
+		scene.setOnKeyPressed(
+				event->{
+					switch(event.getCode()){
+					case ESCAPE:
+						cancelButtonPressed();
+					default:
+						break;
+					}
+				}
+			);
 	}
 	
 	@FXML
