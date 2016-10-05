@@ -97,12 +97,12 @@
                      <font>
                         <Font size="13.0" />
                      </font></Label>
-                  <Label fx:id="purchaseHistoryLabel" onMouseClicked="#openPurchaseHistory" onMouseEntered="#onHoverPurchaseHistoryLabel" onMouseExited="#onCloseHoverPurchaseHistoryLabel" text="Invoice History">
+                  <Label fx:id="purchaseHistoryLabel" onMouseClicked="#openPurchaseHistory" onMouseEntered="#onHoverPurchaseHistoryLabel" onMouseExited="#onCloseHoverPurchaseHistoryLabel" text="Purchase Invoice History">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </Label>
-                  <Label fx:id="salesHistoryLabel" onMouseClicked="#openSalesHistory" onMouseEntered="#onHoverSalesHistoryLabel" onMouseExited="#onCloseHoverSalesHistoryLabel" text="Sales History">
+                  <Label fx:id="salesHistoryLabel" onMouseClicked="#openSalesHistory" onMouseEntered="#onHoverSalesHistoryLabel" onMouseExited="#onCloseHoverSalesHistoryLabel" text="Sales Invoice History">
                      <font>
                         <Font size="13.0" />
                      </font></Label>

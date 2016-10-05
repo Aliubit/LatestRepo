@@ -85,29 +85,13 @@ public class SalesInvoiceController implements Initializable{
 	
 	String ds;
 	
+	int result;
+	
+	boolean check;
+	
 	Scene scene;
 	DBQuries query = new DBQuries();
-	
-	
-	
-	
-	/*@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
 
-		//addButton.setFocusTraversable(false);
-		addButton.setOnKeyPressed(
-				event->{
-					switch(event.getCode()){
-					case ENTER:
-						System.out.println("manhoos add ");
-					case ESCAPE:
-						cancelButtonPressed();
-					default:
-						break;
-					}
-				}
-			);
-	}*/
 	@FXML
 	public void add5MoreRowsPressed()
 	{
@@ -122,8 +106,10 @@ public class SalesInvoiceController implements Initializable{
         }
 	rowCounter=localCOunter;
 	
+	
 	table.setItems(tableData);
 	}
+	
 	public void setScene(Scene scene) {
 		this.scene = scene;
 		scene.setOnKeyPressed(
@@ -144,7 +130,7 @@ public class SalesInvoiceController implements Initializable{
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		rowCounter=0;
 		////Queries
-ResultSet rset1 = query.getAllProductsToSell();
+		ResultSet rset1 = query.getAllProductsToSell();
 		
 		ResultSet rset2 = query.getAllCustomersName();
 		
@@ -288,77 +274,79 @@ ResultSet rset1 = query.getAllProductsToSell();
               
 	        }
 		
-		
-        //////////////////////////////
-       /* ComboBox<String> comboBox = new ComboBox();
-        productNameList=FXCollections.observableArrayList();
-        productNameList.add("ALI");
-        productNameList.add("Umais");
-        productNameList.add("Zafar");
-        productNameList.add("Nafay");
-        comboBox.setItems(productNameList);
-        //gridPane.addRow(1, new TextField());
-       // gridPane.add(addButton, 1, 2, 0, 0);
-      
-        
-      
-        gridPane.add(comboBox, 0, 2);
-        new AutoCompleteComboBoxListener<>(comboBox);*/
-        //////////////////////////
-        
-		
-		
-		/*
-*/}
+}
 		
 	/////////////////////////// Controlling Methods //////////////////////////////////////
-		
+	/*
+	 * 
+	 * datePicker.getValue()!=null && recieptNoTextField.getText().length()>0 && customerNameComboBox.getValue()!=null 
+				   && prodNameComboBox.getValue()!=null && quantityTextField.getText().length()>0 && rateTextField.getText().length()>0 && amountTextField.getText().length()>0;
+	
+	 * 	
+	 */
 	@FXML
 	public void addButonPressed(){
-		if(areAllFieldsSelected()){
-			if(!(Integer.parseInt(availableQuantityLabel.getText())>=0))
-			{
-				Main.faillureDialogBox("You do not have sufficient stock ");
-				return;
-			}
-			
-			LocalDate currDate = datePicker.getValue();
-			
-			int year= currDate.getYear();
-			int month=currDate.getMonthValue();
-			int date =currDate.getDayOfMonth();
-			
-			String dateFormat = date+"/"+month+"/"+year;
-			String recieptNo = recieptNoTextField.getText();
-			String quantity = quantityTextField.getText();
-			String rate = rateTextField.getText();
-			String amount = amountTextField.getText();
-			String customer = customerNameComboBox.getValue();
-			String products = prodNameComboBox.getValue();
-			String[] str =customer.split("_");
-			String[] str1 =products.split("_");
-
-			DBQuries query1 = new DBQuries();
-			int result = query1.insertIntoSalesHistory(dateFormat, str[0], str[1], recieptNo, str1[1], str1[0],Integer.parseInt(quantity) , Float.parseFloat(rate),Float.parseFloat(amount));
-			if(result == 1){
-				Main.successDialogBox();
-				datePicker.getEditor().setText("");
-				recieptNoTextField.setText("");
-				customerNameComboBox.setValue("");
-				prodNameComboBox.setValue("");
-				quantityTextField.setText("");
-				rateTextField.setText("");
-				amountTextField.setText("");
-				availableQuantityLabel.setText("");
-				//System.out.println("Which error yarrrrrr");
-			}
-			else{
-				Main.faillureDialogBox("Query Failed to Execute ");
-			}
-		}
+		
+		for(MySalesInvoiceModel model : tableData){
+	
+			if(datePicker.getValue() != null && recieptNoTextField.getText().length() > 0 && customerNameComboBox.getValue() != null
+					&& model.productName.getValue() != null && model.quantity.getText().length() > 0 && model.rate.getText().length() > 0 && model.amount.getText().length() > 0){
+				
+			//if(areAllFieldsSelected()){
+				/*if(!(Integer.parseInt(availableQuantityLabel.getText())>=0))
+				{
+					Main.faillureDialogBox("You do not have sufficient stock ");
+					return;
+				}
+				*/
+				LocalDate currDate = datePicker.getValue();
+				
+				int year= currDate.getYear();
+				int month=currDate.getMonthValue();
+				int date =currDate.getDayOfMonth();
+				
+				String dateFormat = date+"/"+month+"/"+year;
+				String recieptNo = recieptNoTextField.getText();
+				String quantity = model.quantity.getText();
+				String rate = model.rate.getText();
+				String amount = model.amount.getText();
+				String customer = customerNameComboBox.getValue();
+				String products = model.productName.getValue();
+				String[] str =customer.split("_");
+				String[] str1 =products.split("_");
+				
+				DBQuries query1 = new DBQuries();
+				result = query1.insertIntoSalesHistory(dateFormat, str[0], str[1], recieptNo, str1[1], str1[0],Integer.parseInt(quantity) , Float.parseFloat(rate),Float.parseFloat(amount));
+				
+		}/*
 		else{
 			Main.faillureDialogBox("Please fill all the required fields");
+		}*/
 		}
+		
+		for(MySalesInvoiceModel model : tableData){
+		if(result == 1){
+			check = true;
+			//Main.successDialogBox();
+			datePicker.getEditor().setText("");
+			recieptNoTextField.setText("");
+			customerNameComboBox.setValue("");
+			model.productName.setValue("");
+			model.quantity.setText("");
+			model.rate.setText("");
+			model.amount.setText("");
+			model.availableQuantity.setText("");
+			//System.out.println("Which error yarrrrrr");
+		}
+		}
+		if(check == true){
+			Main.successDialogBox();
+		}
+		else{
+			Main.faillureDialogBox("Check is not true");
+		}
+		
+	
 }
 	
 	@FXML
@@ -413,12 +401,12 @@ ResultSet rset1 = query.getAllProductsToSell();
 		else
 			availableQuantityLabel.setText(ds);
 	}
-	
+	/*
 	private boolean areAllFieldsSelected() {
 		return datePicker.getValue()!=null && recieptNoTextField.getText().length()>0 && customerNameComboBox.getValue()!=null 
 				   && prodNameComboBox.getValue()!=null && quantityTextField.getText().length()>0 && rateTextField.getText().length()>0 && amountTextField.getText().length()>0;
 	}
-	
+	*/
 	///////////////////////zafar
 	
 	@FXML
