@@ -1,6 +1,7 @@
 package myshop.view;
 
 import java.net.URL;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -183,7 +184,7 @@ public class purchaseBillController implements Initializable{
       	  if(model2.productQuantity.equals(typedQtyTextField))
       	  {
       		  try {
-					keyPressed(quantityTextField, rateTextField, amountTextField);
+      			keyPressed(model2.productQuantity, model2.productRate, model2.productAmount);
       			  //quantityLeft(typedQtyTextField,model2.rate,model2.amount,model2.availableQuantity);
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
@@ -203,7 +204,8 @@ public class purchaseBillController implements Initializable{
           	  if(model2.productRate.equals(typedQtyTextField))
           	  {
           		  try {
-          			  keyPressed(quantityTextField, rateTextField, amountTextField);
+          			  keyPressed(model2.productQuantity, model2.productRate, model2.productAmount);
+          			  
 						//quantityLeft(model2.quantity,model2.rate,model2.amount,model2.availableQuantity);
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
@@ -258,13 +260,22 @@ public class purchaseBillController implements Initializable{
 			if(datePicker.getValue() != null && billNoTextField.getText().length() > 0 && supplierNameComboBox.getValue() != null
 					&& model.productName.getValue() != null && model.productQuantity.getText().length() > 0 && model.productRate.getText().length() > 0 && model.productAmount.getText().length() > 0){
 			
-		LocalDate currDate = datePicker.getValue();
+		/*LocalDate currDate = datePicker.getValue();
 		
 		int year= currDate.getYear();
 		int month=currDate.getMonthValue();
 		int date =currDate.getDayOfMonth();
 		
-		String dateFormat = date+"/"+month+"/"+year;
+		String dateFormat = date+"/"+month+"/"+year;*/
+LocalDate currDate = datePicker.getValue();
+				
+				int year= currDate.getYear();
+				int month=currDate.getMonthValue();
+				int date =currDate.getDayOfMonth();
+				
+				////
+				LocalDate locald = LocalDate.of(year, month,date);
+				Date myDate = Date.valueOf(locald);		
 		String billNo = billNoTextField.getText();
 		String quantity = model.productQuantity.getText();
 		String rate = model.productRate.getText();
@@ -275,7 +286,7 @@ public class purchaseBillController implements Initializable{
 		String[] str1 =products.split("_");
 		
 		DBQuries query = new DBQuries();
-		result = query.insertIntoPurchaseHistory(dateFormat, str[0], str[1], billNo, str1[1], str1[0],Integer.parseInt(quantity) , Float.parseFloat(rate),Float.parseFloat(amount));
+		result = query.insertIntoPurchaseHistory(myDate, str[0], str[1], billNo, str1[1], str1[0],Integer.parseInt(quantity) , Float.parseFloat(rate),Float.parseFloat(amount));
 		}
 		}
 		

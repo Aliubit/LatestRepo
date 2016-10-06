@@ -18,7 +18,6 @@ import javafx.scene.input.MouseButton;
 import myshop.Main;
 import myshop.dbhandler.DBQuries;
 import myshop.models.MyAccountPaybleModel;
-import myshop.models.PurchaseHistoryModel;
 
 public class AccountPayableViewController implements Initializable {
 
@@ -39,6 +38,8 @@ public class AccountPayableViewController implements Initializable {
 	@FXML
 	public TableColumn<MyAccountPaybleModel,String> balanceColumn;
 	
+	public static String supplierName;
+	public static String supplierID;
 	//public static String clickedId,clickedName,clickedDebit,clickedCredit,clickedBalance;
 	
 	public MyAccountPaybleModel model;
@@ -166,7 +167,7 @@ public class AccountPayableViewController implements Initializable {
 	creditColumn.setCellValueFactory(new PropertyValueFactory<MyAccountPaybleModel,String>("credit"));
 	balanceColumn.setCellValueFactory(new PropertyValueFactory<MyAccountPaybleModel,String>("Balance"));
 	supplierIdColumn.setCellValueFactory(new PropertyValueFactory<MyAccountPaybleModel,String>("supplierId"));
-	
+
 	table.setItems(list);
 
 	 table.setRowFactory(tv -> {
@@ -177,7 +178,16 @@ public class AccountPayableViewController implements Initializable {
 
  	        		try {
  	        			if(Main.isPayableClicked)
+ 	        			{
+						
+						//TableRow<MyAccountPaybleModel> model1 = (TableRow<MyAccountPaybleModel>)event.getSource();
+						//MyAccountPaybleModel model = table.getSelectionModel().getSelectedItem();
+						MyAccountPaybleModel model1 = row.getItem();
+						supplierName=model1.supplierName;
+						supplierID=model1.supplierId;
+						System.out.println(model1.supplierName);
 						Main.showAccountPayableDetailsOfAPersonWindow();
+ 	        			}
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();

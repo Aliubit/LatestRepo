@@ -36,10 +36,12 @@ public class MyInventoryController implements Initializable {
 	public TableColumn<MyInventoryModel,String> quantityColumn;
 	@FXML 
 	public  TableColumn<MyInventoryModel,String> rateColumn;
+	@FXML 
+	public  TableColumn<MyInventoryModel,String> supplierNameColumn;
 	@FXML
 	public TableColumn<MyInventoryModel,String> totalAmountColumn;
-	//@FXML
-	//public Label totalCostOfInventory;
+	@FXML
+	public Label totalCostOfInventory;
 	  
 	float totalSum;
 
@@ -61,7 +63,7 @@ public class MyInventoryController implements Initializable {
 	
 		try {
 				while (rset.next()) {
-					MyInventoryModel model = new MyInventoryModel(rset.getString("product_Id"),rset.getString("product_Name"),rset.getInt("quantity")+"",rset.getFloat("rate")+"");
+					MyInventoryModel model = new MyInventoryModel(rset.getString("product_Id"),rset.getString("product_Name"),rset.getInt("quantity")+"",rset.getFloat("rate")+"", rset.getString("supplier_Name")+"");
 					totalSum += Float.parseFloat(model.getTotalProductAmount());
 					data.add( model);
 				}
@@ -71,7 +73,7 @@ public class MyInventoryController implements Initializable {
 			}
 	         
 	    for(MyInventoryModel e : data){
-	        	 System.out.println(e.getProductId()+" ," + e.getProductName() + " ," + e.getProductQuantity()+ ", "+ e.getProductRate());
+	        	 System.out.println(e.getProductId()+" ," + e.getProductName() + " ," + e.getProductQuantity()+ ", "+ e.getProductRate()+ ", "+ e.getSupplierName());
 	         }
 	  	  	  
          prodColumn.setCellValueFactory(new PropertyValueFactory<MyInventoryModel,String>("productId"));
@@ -79,9 +81,11 @@ public class MyInventoryController implements Initializable {
          quantityColumn.setCellValueFactory(new PropertyValueFactory<MyInventoryModel,String>("productQuantity"));
          rateColumn.setCellValueFactory(new PropertyValueFactory<MyInventoryModel,String>("productRate"));
 	     totalAmountColumn.setCellValueFactory(new PropertyValueFactory<MyInventoryModel,String>("totalProductAmount"));
+	     supplierNameColumn.setCellValueFactory(new PropertyValueFactory<MyInventoryModel,String>("supplierName"));
 	     table.setItems(data);
 	     
 	     System.out.println(totalSum);
+	     totalCostOfInventory.setText(totalSum+"");
 	     
 	     try {
 			ConnectToDB.conn.close();

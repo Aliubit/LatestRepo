@@ -1,6 +1,7 @@
 package myshop.view;
 
 import java.net.URL;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
@@ -16,9 +17,9 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
+import javafx.util.converter.LocalDateStringConverter;
 import myshop.Main;
 import myshop.dbhandler.DBQuries;
-import myshop.models.MyPurchaseBillModel;
 import myshop.models.PurchaseHistoryModel;
 
 
@@ -27,6 +28,8 @@ public class PurchaseHistoryViewController implements Initializable {
 
 	@FXML
 	public DatePicker datePicker;
+	@FXML 
+	public DatePicker datePicker1;
 	@FXML
 	public Button searchButton;
 	@FXML 
@@ -110,26 +113,71 @@ public class PurchaseHistoryViewController implements Initializable {
 	{
 		
 		LocalDate currDate = datePicker.getValue();
+		LocalDate currDate1= datePicker1.getValue();
+		if(currDate == null)
+		{
+			return;
+		}
+		//if(currDate !=null && currDate1!=null)
+		//{
 		
 		table.setEditable(true);
 		int year= currDate.getYear();
 		int month=currDate.getMonthValue();
 		int date =currDate.getDayOfMonth();
-		
-		String dateFormat = date+"/"+month+"/"+year;
-		
+		LocalDate locald = LocalDate.of(year, month,date);
+		Date myDate = Date.valueOf(locald);
+		int year1=0;
+		int month1=0;
+		int date1=0 ;
+		LocalDate locald1=null ;
+		Date myDate1 =null;
+		if(currDate1!=null)
+		{
+		 year1= currDate1.getYear();
+		 month1=currDate1.getMonthValue();
+		 date1 =currDate1.getDayOfMonth();
+		 locald1 = LocalDate.of(year1, month1,date1);
+		 myDate1 = Date.valueOf(locald1);
+		}
+		//String dateFormat = date+"/"+month+"/"+year;
+		/*String dateFormat = year+"-"+month+"-"+date;
+		Date myDate;
 		//System.out.println(dateFormat);
+		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			 myDate = (Date) formatter.parse(dateFormat);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			myDate=null;
+			e.printStackTrace();
+		}*/
 		
 		DBQuries dbQueries = new DBQuries();
 		ResultSet rset;
 		if(Main.isPurchaseClicked)
-			rset = dbQueries.getPurchaseHistoryWithDate(dateFormat);
+		{
+			if(currDate1==null)
+			rset = dbQueries.getPurchaseHistoryWithDate(myDate);
+			else
+			{
+				rset = dbQueries.getPurchaseHistoryWithDate(myDate,myDate1);
+			}
+			
+		}
 		else
 		{
-			rset = dbQueries.getSalesHistoryWithDate(dateFormat);
+			if(currDate1==null)
+				rset = dbQueries.getSalesHistoryWithDate(myDate);
+				else 
+				{
+					rset = dbQueries.getSalesHistoryWithDate(myDate,myDate1);
+				}
+				
 		}
 		
 		setDataForTable(rset);
+		//}
 	}
 	
 	void setDataForTable(ResultSet rset)
@@ -158,7 +206,12 @@ public class PurchaseHistoryViewController implements Initializable {
 					}
 					if(!found)
 					{
-						list.add(new PurchaseHistoryModel(rset.getString(columnOfDate),rset.getString(columnOfBill),rset.getString(columnOfpartyName),rset.getString(columnOfpartyId),rset.getFloat(columnOfAmount)+""));
+						Date dates= rset.getDate(columnOfDate);
+						LocalDate localD = dates.toLocalDate();
+						int year= localD.getYear();
+						int month=localD.getMonthValue();
+						int date =localD.getDayOfMonth();
+						list.add(new PurchaseHistoryModel(date+"/"+month+"/"+year,rset.getString(columnOfBill),rset.getString(columnOfpartyName),rset.getString(columnOfpartyId),rset.getFloat(columnOfAmount)+""));
 					    found=false;
 					}
 					
@@ -166,7 +219,12 @@ public class PurchaseHistoryViewController implements Initializable {
 				else
 				{
 					//System.out.println("in else");
-					list.add(new PurchaseHistoryModel(rset.getString(columnOfDate),rset.getString(columnOfBill),rset.getString(columnOfpartyName),rset.getString(columnOfpartyId),rset.getFloat(columnOfAmount)+""));
+					Date dates= rset.getDate(columnOfDate);
+					LocalDate localD = dates.toLocalDate();
+					int year= localD.getYear();
+					int month=localD.getMonthValue();
+					int date =localD.getDayOfMonth();
+					list.add(new PurchaseHistoryModel(date+"/"+month+"/"+year,rset.getString(columnOfBill),rset.getString(columnOfpartyName),rset.getString(columnOfpartyId),rset.getFloat(columnOfAmount)+""));
 				}
 			}
 		} catch (Exception e) {

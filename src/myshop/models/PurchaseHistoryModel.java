@@ -1,7 +1,10 @@
 package myshop.models;
 
+import java.sql.Date;
+
 public class PurchaseHistoryModel {
 
+	public Date originalDate;
 	public String date;
 	public String billNo;
 	public String name;

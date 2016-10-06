@@ -1,10 +1,8 @@
 package myshop.dbhandler;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import myshop.view.BillDetailController;
-import myshop.view.PurchaseBillEditFormViewController;
 
 public class DBQuries {
 
@@ -175,7 +173,7 @@ public void updateInventoryAftersalesEdit(String prodId,String prodName,int quan
 	
 	//////////////////////// Purchase Bill Working ////////////////////////////
 	
-	public int insertIntoPurchaseHistory(String Date,String nameOfSupplier,String idOfSupplier,String billNo,String nameOfProd,String idOfProcuct
+	public int insertIntoPurchaseHistory(Date Date,String nameOfSupplier,String idOfSupplier,String billNo,String nameOfProd,String idOfProcuct
 			                              ,int quantityOfProd,float rateOfProd,float amountOfProd){
 		int count=0;
 		String query = "INSERT INTO purchase_history(purchase_Date,bill_No,supplier_Id,supplier_Name,item_Id,item_Name,quantity,rate,Amount)"
@@ -184,7 +182,7 @@ public void updateInventoryAftersalesEdit(String prodId,String prodName,int quan
 		count = conn.queryHolder(query);
 		
 			
-		String query1 ="select * from inventory WHERE product_Id='"+idOfProcuct+"' AND product_Name='"+nameOfProd+"'";
+		String query1 ="select * from inventory WHERE product_Id='"+idOfProcuct+"' AND product_Name='"+nameOfProd+"' ";
 		System.out.println("database se  p bill"+ idOfProcuct + "Name Of Product "+ nameOfProd);
 		ResultSet rest2= conn.dbRetrival(query1);
 		
@@ -215,7 +213,7 @@ public void updateInventoryAftersalesEdit(String prodId,String prodName,int quan
 		}
 		
 		System.out.println("database se "+ idOfProcuct + "Name Of Product "+ nameOfProd);
-		String updationOfInventory = "UPDATE inventory SET quantity='"+newQuantity+"',rate='"+newRate+"' WHERE product_Id='"+idOfProcuct+"' AND product_Name='"+nameOfProd+"'";
+		String updationOfInventory = "UPDATE inventory SET quantity='"+newQuantity+"',rate='"+newRate+"',supplier_Name='"+nameOfSupplier+"' WHERE product_Id='"+idOfProcuct+"' AND product_Name='"+nameOfProd+"'";
 		conn.queryHolder(updationOfInventory);
 		
 		return count;
@@ -228,7 +226,7 @@ public void updateInventoryAftersalesEdit(String prodId,String prodName,int quan
 			
 		//////////////////////// Sales Bill Working ////////////////////////////
 	
-	public int insertIntoSalesHistory(String Date,String nameOfCustomer,String idOfCustomer,String recieptNo,String nameOfProd,String idOfProcuct
+	public int insertIntoSalesHistory(Date Date,String nameOfCustomer,String idOfCustomer,String recieptNo,String nameOfProd,String idOfProcuct
             ,int quantityOfProd,float rateOfProd,float amountOfProd){
 
 		int count=0,flag = 0;
@@ -315,31 +313,59 @@ public void updateInventoryAftersalesEdit(String prodId,String prodName,int quan
 		ResultSet rset1= conn.dbRetrival(query);
 		return rset1;
 	}
-	
-	///////Get All Purchase History with date
-	
-	public ResultSet getPurchaseHistoryWithDate(String dateFormat)
+	//// Get Purchase History of a supplier
+	public ResultSet getPurchaseHistoryWithSupplierNameAndId(String supplierName,String supplierId)
 	{
-		String query = "select * from purchase_history WHERE purchase_Date = '"+dateFormat+"'" ;
+		String query = "select * from purchase_history WHERE supplier_Name = '"+supplierName+"' AND supplier_Id='"+supplierId+"' ORDER BY purchase_Date" ;
 		ResultSet rset1= conn.dbRetrival(query);
 		return rset1;
 	}
-	public ResultSet getSalesHistoryWithDate(String dateFormat)
+	
+	//// Get Amount Paid To Suppliers With Names And Id
+	public ResultSet getAmountPaidToSuppliers(String supplierName,String supplierId)
 	{
-		String query = "select * from sales_history WHERE sale_Date = '"+dateFormat+"'" ;
+		String query = "select * from accountpayable WHERE supplier_Name = '"+supplierName+"' AND supplier_Id='"+supplierId+"' ORDER BY date" ;
+		ResultSet rset1= conn.dbRetrival(query);
+		return rset1;
+	}
+	
+	////
+	///////Get All Purchase History with date
+	
+	public ResultSet getPurchaseHistoryWithDate(Date dateFormat)
+	{
+		String query = "select * from purchase_history WHERE purchase_Date = '"+dateFormat+"' ORDER BY purchase_Date" ;
+		ResultSet rset1= conn.dbRetrival(query);
+		return rset1;
+	}
+	public ResultSet getPurchaseHistoryWithDate(Date dateFormat,Date dateFormat1)
+	{
+		String query = "select * from purchase_history WHERE purchase_Date BETWEEN '"+dateFormat+"' AND '"+dateFormat1+"' ORDER BY purchase_Date";
+		ResultSet rset1= conn.dbRetrival(query);
+		return rset1;
+	}
+	public ResultSet getSalesHistoryWithDate(Date dateFormat)
+	{
+		String query = "select * from sales_history WHERE sale_Date = '"+dateFormat+"' ORDER BY sale_Date" ;
+		ResultSet rset1= conn.dbRetrival(query);
+		return rset1;
+	}
+	public ResultSet getSalesHistoryWithDate(Date dateFormat,Date dateFormat1)
+	{
+		String query = "select * from sales_history WHERE sale_Date BETWEEN '"+dateFormat+"' AND '"+dateFormat1+"' ORDER BY sale_Date" ;
 		ResultSet rset1= conn.dbRetrival(query);
 		return rset1;
 	}
 	public ResultSet getPurchaseHistoryWithDate()
 	{
-		String query = "select * from purchase_history" ;
+		String query = "select * from purchase_history ORDER BY purchase_Date" ;
 		ResultSet rset1= conn.dbRetrival(query);
 		return rset1;
 	}
 	
 	public ResultSet getSalesHistoryWithDate()
 	{
-		String query = "select * from sales_history" ;
+		String query = "select * from sales_history ORDER BY sale_Date" ;
 		ResultSet rset1= conn.dbRetrival(query);
 		return rset1;
 	}

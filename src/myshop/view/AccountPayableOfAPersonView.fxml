@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="480.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="480.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="myshop.view.AccountPayableOfAPersonViewController">
    <top>
       <Label text="Account Payable" BorderPane.alignment="CENTER">
          <font>
@@ -33,17 +33,17 @@
                <children>
                   <Label text="Supplier ID :" />
                   <Label text="Supplier Name :" GridPane.rowIndex="1" />
-                  <Label text="Label" GridPane.columnIndex="1" />
-                  <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label fx:id="supplierIDLabel" text="Label" GridPane.columnIndex="1" />
+                  <Label fx:id="supplierNameLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
             </GridPane>
-            <TableView prefHeight="390.0" prefWidth="600.0">
+            <TableView fx:id="table" prefHeight="390.0" prefWidth="600.0">
               <columns>
-                <TableColumn prefWidth="75.0" text="Date" />
-                <TableColumn prefWidth="75.0" text="Particulars" />
-                  <TableColumn prefWidth="75.0" text="Debit" />
-                  <TableColumn prefWidth="75.0" text="Credit" />
-                  <TableColumn prefWidth="75.0" text="Balance" />
+                <TableColumn fx:id="dateColumn" prefWidth="75.0" text="Date" />
+                <TableColumn fx:id="particularColumn" prefWidth="75.0" text="Particulars" />
+                  <TableColumn fx:id="debitColumn" prefWidth="75.0" text="Debit" />
+                  <TableColumn fx:id="creditColumn" prefWidth="75.0" text="Credit" />
+                  <TableColumn fx:id="balanceColumn" prefWidth="75.0" text="Balance" />
               </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

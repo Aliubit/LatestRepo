@@ -1,15 +1,18 @@
 package myshop.view;
 
 import java.net.URL;
+import java.sql.Date;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
@@ -19,7 +22,6 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -303,7 +305,26 @@ public class SalesInvoiceController implements Initializable{
 				int month=currDate.getMonthValue();
 				int date =currDate.getDayOfMonth();
 				
-				String dateFormat = date+"/"+month+"/"+year;
+				////
+				LocalDate locald = LocalDate.of(year, month,date);
+				Date myDate = Date.valueOf(locald); // Magic happens here!
+				//r.setDateOfBirth(date);
+				
+				////
+				/*String dateFormat = year+"-"+month+"-"+date;
+				Date myDate;
+				DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+				try {
+					 myDate = (Date) formatter.parse(dateFormat);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					myDate=null;
+				}*/
+				////////////
+			//	String dateString = datePicker.getValue();
+				
+				////////////
 				String recieptNo = recieptNoTextField.getText();
 				String quantity = model.quantity.getText();
 				String rate = model.rate.getText();
@@ -314,7 +335,7 @@ public class SalesInvoiceController implements Initializable{
 				String[] str1 =products.split("_");
 				
 				DBQuries query1 = new DBQuries();
-				result = query1.insertIntoSalesHistory(dateFormat, str[0], str[1], recieptNo, str1[1], str1[0],Integer.parseInt(quantity) , Float.parseFloat(rate),Float.parseFloat(amount));
+				result = query1.insertIntoSalesHistory(myDate, str[0], str[1], recieptNo, str1[1], str1[0],Integer.parseInt(quantity) , Float.parseFloat(rate),Float.parseFloat(amount));
 				
 		}/*
 		else{

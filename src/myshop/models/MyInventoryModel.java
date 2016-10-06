@@ -7,13 +7,15 @@ public class MyInventoryModel {
 	 String productQuantity;
 	 String productRate;
 	 String totalProductAmount;
+	 String supplierName;
 	
-	public MyInventoryModel(String prodId,String prodName,String prodQuantity,String productRate)
+	public MyInventoryModel(String prodId,String prodName,String prodQuantity,String productRate,String supplierName)
 	{
 		this.productId=prodId;
 		this.productName=prodName;
 		this.productQuantity=prodQuantity;
-		this.productRate=productRate;	
+		this.productRate=productRate;
+		this.supplierName=supplierName;
 		this.settotalProductAmount();
 	}
 	
@@ -54,6 +56,14 @@ public class MyInventoryModel {
 	
 	public String getTotalProductAmount(){
 		return this.totalProductAmount;
+	}
+
+	public String getSupplierName() {
+		return supplierName;
+	}
+
+	public void setSupplierName(String supplierName) {
+		this.supplierName = supplierName;
 	}
 	
 	

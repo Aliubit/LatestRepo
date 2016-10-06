@@ -30,7 +30,7 @@
                   <Label text="Start Date :" />
                   <DatePicker fx:id="datePicker" GridPane.columnIndex="1" />
                   <Label text="End Date :" GridPane.columnIndex="2" />
-                  <DatePicker GridPane.columnIndex="3" />
+                  <DatePicker fx:id="datePicker1" GridPane.columnIndex="3" />
                   <Button fx:id="searchButton" mnemonicParsing="false" onAction="#searchButtonPressed" text="Search" GridPane.columnIndex="4" />
                </children>
             </GridPane>
